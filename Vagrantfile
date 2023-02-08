@@ -49,22 +49,9 @@ Vagrant.configure("2") do |config|
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
-  config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine
-    vb.gui = true
-
-    # Customize the amount of memory on the VM:
-    vb.memory = "4096"
-
-    vb.customize [
-      "modifyvm", :id,
-      "--vram", "256", # フルスクリーンモード用
-      "--clipboard", "bidirectional", # クリップボード共有
-      "--draganddrop", "bidirectional", # ドラッグアンドドロップ
-      "--cpus", "4",
-      "--ioapic", "on" # I/O APICを有効化
-    ]
-  end
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  # end
 
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -77,22 +64,10 @@ Vagrant.configure("2") do |config|
     apt-get upgrade
 
     apt-get install -y \
-      ubuntu-desktop \
       apt-transport-https \
       ca-certificates \
-      software-properties-common
-
-    snap install --classic code
-
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    add-apt-repository \
-      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) \
-      stable"
-
-    apt-get install -y docker-ce
-    usermod -aG docker vagrant
-
-    reboot
+      software-properties-common \
+      tmux \
+      tcpdump
   SHELL
 end
