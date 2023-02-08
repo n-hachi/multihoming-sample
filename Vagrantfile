@@ -54,7 +54,16 @@ Vagrant.configure("2") do |config|
     vb.gui = true
 
     # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+    vb.memory = "4096"
+
+    vb.customize [
+      "modifyvm", :id,
+      "--vram", "256", # フルスクリーンモード用
+      "--clipboard", "bidirectional", # クリップボード共有
+      "--draganddrop", "bidirectional", # ドラッグアンドドロップ
+      "--cpus", "4",
+      "--ioapic", "on" # I/O APICを有効化
+    ]
   end
 
   # View the documentation for the provider you are using for more
@@ -63,8 +72,27 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get upgrade
+
+    apt-get install -y \
+      ubuntu-desktop \
+      apt-transport-https \
+      ca-certificates \
+      software-properties-common
+
+    snap install --classic code
+
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    add-apt-repository \
+      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) \
+      stable"
+
+    apt-get install -y docker-ce
+    usermod -aG docker vagrant
+
+    reboot
+  SHELL
 end
