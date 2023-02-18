@@ -11,9 +11,18 @@ multihoming-sample
 - virtualbox
 
 # 手順
+
+## 仮想マシン構築
+
 ```
 git clone https://github.com/n-hachi/multihoming-sample.git
 cd multihoming-sample
 vagrant up
+```
+vagrant up実行中にネットワークインターフェースをブリッジネットワークとして使うか聞かれる可能性がある。
+その場合はホスト側のデフォルトゲートウェイに設定されているネットワークインターフェースを選択する。
+
+## 仮想マシン接続
+```
 vagrant ssh
 ```
