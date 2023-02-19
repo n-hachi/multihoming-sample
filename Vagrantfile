@@ -52,6 +52,9 @@ Vagrant.configure("2") do |config|
   # config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   # end
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  end
 
   # View the documentation for the provider you are using for more
   # information on available options.
